@@ -33,7 +33,7 @@
     .page-hero {
       padding: 160px 60px 100px; position: relative; overflow: hidden;
       border-bottom: 1px solid var(--border);
-      min-height: 480px; display: flex; align-items: center;
+      min-height: 400px; display: flex; align-items: center;
     }
     .code-bg {
       position: absolute; inset: 0; z-index: 0; overflow: hidden;
@@ -162,7 +162,7 @@
     .cov-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); margin: 56px 0 2px; }
     .cov-stat { background: var(--black); padding: 30px 32px; }
     .cov-stat-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
-    .cov-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; line-height: 1; color: var(--gold-light); font-variant-numeric: tabular-nums; }
+    .cov-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; line-height: 1; color: var(--gold-light); font-variant-numeric: lining-nums tabular-nums; }
     .cov-stat-sub { font-size: 10px; color: var(--text-muted); margin-top: 8px; }
 
     .cov-panel { border: 1px solid var(--border); background: var(--mid); padding: 36px; margin-top: 40px; }
@@ -231,7 +231,16 @@
 
     /* ROADMAP */
     #roadmap { background: var(--mid); }
-    .rm-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 60px; margin-top: 60px; align-items: start; }
+    .rm-grid { display: grid; grid-template-columns: minmax(0, 960px); margin-top: 50px; }
+    .rm-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+    .rm-count { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .rm-layer.active .rm-count { color: var(--gold-light); }
+    .rm-layer.done .rm-count { color: var(--green); }
+    .rm-bar { height: 2px; background: rgba(255,255,255,0.06); margin: 6px 0 22px; }
+    .rm-bar i { display: block; height: 100%; width: 0; transition: width 1.2s ease; }
+    .rm-layer.done .rm-bar i { background: var(--green); }
+    .rm-layer.active .rm-bar i { background: var(--gold); }
+    .rm-items + .rm-items { margin-top: 7px; }
     .rm-list { display: flex; flex-direction: column; gap: 2px; background: var(--border); }
     .rm-layer { background: var(--mid); padding: 34px 36px; position: relative; }
     .rm-layer::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; }
@@ -270,6 +279,67 @@
     .pw td { padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.06); text-align: right; font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; color: rgba(245,244,240,0.85); }
     .pw td:first-child { text-align: left; font-family: 'Montserrat', sans-serif; color: var(--text-muted); }
     .pw td.hi { color: var(--gold-light); }
+
+    /* SCOREBOARD */
+    .scoreboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+    .sb-slot { background: var(--black); padding: 40px 36px 34px; position: relative; }
+    .sb-slot::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .sb-slot.live::before { background: var(--gold); }
+    .sb-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 18px; }
+    .sb-val { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 5vw, 72px); font-weight: 300; line-height: 1; color: var(--gold-light); font-variant-numeric: lining-nums tabular-nums; min-height: 1em; display: flex; align-items: flex-end; }
+    .sb-slot.locked .sb-val { color: rgba(184,150,62,0.45); }
+    .rd { display: inline-block; width: 0.5em; height: 0.66em; margin: 0 0.035em 0.09em; background: linear-gradient(90deg, rgba(184,150,62,0.16) 0%, rgba(184,150,62,0.34) 50%, rgba(184,150,62,0.16) 100%); background-size: 200% 100%; animation: redact 3.2s ease-in-out infinite; }
+    @keyframes redact { 0%,100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+    .sb-sub { font-size: 10px; color: var(--text-muted); margin-top: 14px; letter-spacing: 0.5px; }
+    .sb-status { margin-top: 18px; display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
+    .sb-dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid currentColor; flex-shrink: 0; }
+    .sb-slot.live .sb-status { color: var(--green); }
+    .sb-slot.live .sb-dot { background: currentColor; animation: pulse 2s infinite; }
+    .sys-banner { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); padding: 14px 60px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+    .sys-banner b { color: var(--gold); font-weight: 400; }
+    .sys-banner .sep { color: rgba(184,150,62,0.35); }
+    .sys-banner .sb-dot { color: var(--green); background: currentColor; animation: pulse 2s infinite; width: 6px; height: 6px; }
+
+    /* TABS */
+    .qtabs { position: sticky; top: 83px; z-index: 50; display: grid; grid-template-columns: repeat(3, 1fr); background: rgba(10,10,10,0.97); border-bottom: 1px solid var(--border); }
+    .qtab { background: transparent; border: none; border-right: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; padding: 22px 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; position: relative; transition: color 0.2s, background 0.2s; }
+    .qtab:last-child { border-right: none; }
+    .qtab span { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(184,150,62,0.5); letter-spacing: 0; }
+    .qtab:hover { color: var(--white); background: rgba(184,150,62,0.03); }
+    .qtab[aria-selected="true"] { color: var(--gold-light); }
+    .qtab[aria-selected="true"] span { color: var(--gold); }
+    .qtab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; }
+    .qtab[aria-selected="true"]::after { transform: scaleX(1); }
+    .tab-panel { scroll-margin-top: 150px; }
+    .tab-panel[hidden] { display: none; }
+
+    /* METHODOLOGY */
+    .num-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 50px; }
+    .num-tile { background: var(--black); padding: 34px 32px 30px; }
+    .num-val { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; line-height: 1; color: var(--gold-light); font-variant-numeric: lining-nums tabular-nums; }
+    .num-val small { font-size: 0.4em; margin-left: 2px; }
+    .num-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--white); margin-top: 16px; }
+    .num-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 8px; letter-spacing: 0.5px; }
+    .mt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); margin-top: 2px; }
+    .mt-grid .rm-card { background: var(--mid); padding: 32px 32px 28px; }
+    .rules { display: grid; grid-template-columns: auto 1fr; gap: 0 20px; font-size: 11px; }
+    .rules dt, .rules dd { padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.06); }
+    .rules dt { color: var(--white); font-weight: 500; white-space: nowrap; }
+    .rules dd { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+
+    @media (max-width: 900px) {
+      .scoreboard { grid-template-columns: 1fr 1fr; }
+      .sb-slot { padding: 28px 20px 24px; }
+      .sys-banner { padding: 12px 20px; font-size: 9px; letter-spacing: 1.5px; }
+      .qtabs { top: 0; position: relative; }
+      .qtab { padding: 16px 8px; font-size: 9px; letter-spacing: 1.5px; gap: 6px; }
+      .num-grid { grid-template-columns: 1fr 1fr; }
+      .num-tile { padding: 24px 18px; }
+      .num-val { font-size: 42px; }
+      .mt-grid { grid-template-columns: 1fr; }
+      .mt-grid .rm-card { padding: 26px 20px; }
+      .rules dt { white-space: normal; }
+    }
 
     @media (max-width: 900px) {
       section { padding: 72px 20px; }
@@ -323,10 +393,17 @@
     <div class="code-bg" id="code-bg"></div>
     <div class="page-hero-inner">
       <div class="page-eyebrow fade-in d1">Quantitative Division</div>
+      <!-- Previous hero copy, kept for later:
       <h1 class="page-title fade-in d2">Algorithms<br/>Built to <em>Beat</em><br/>the Market</h1>
       <p class="page-subtitle fade-in d3">A team of computer science students and finance analysts collaborating to design, backtest, and deploy systematic trading strategies.</p>
+      -->
+      <h1 class="page-title fade-in d2">Systematic<br/><em>by Design.</em></h1>
     </div>
   </div>
+
+  <!-- SCOREBOARD (values: data/quant-metrics.js) -->
+  <div class="scoreboard" id="scoreboard" aria-label="Quant division key figures"></div>
+  <div class="sys-banner" id="sys-banner"></div>
 
   <!-- TICKER STRIP -->
   <div class="ticker-strip">
@@ -336,155 +413,153 @@
     </div>
   </div>
 
-  <section id="coverage">
+  <div class="qtabs" role="tablist" aria-label="Quant sections">
+    <button type="button" role="tab" class="qtab" data-tab="coverage" aria-controls="coverage"><span>01</span>Coverage</button>
+    <button type="button" role="tab" class="qtab" data-tab="roadmap" aria-controls="roadmap"><span>02</span>Build Log</button>
+    <button type="button" role="tab" class="qtab" data-tab="methodology" aria-controls="methodology"><span>03</span>Methodology</button>
+  </div>
+
+  <section id="coverage" class="tab-panel" role="tabpanel">
     <div class="reveal">
       <div class="section-eyebrow">Coverage Universe</div>
-      <h2 class="section-title">The S&amp;P 500,<br/><em>Read From the Filings</em></h2>
-      <p class="cov-intro">Every fundamental in our pipeline is pulled directly from SEC EDGAR, as originally filed, with no third-party data vendor in between. This is what we actually hold: every company, every field, including the gaps.</p>
+      <h2 class="section-title">S&amp;P <em>500</em></h2>
     </div>
 
     <div class="cov-stats reveal">
-      <div class="cov-stat"><div class="cov-stat-label">Companies</div><div class="cov-stat-val" id="st-n">—</div><div class="cov-stat-sub">S&amp;P 500 constituents</div></div>
+      <div class="cov-stat"><div class="cov-stat-label">Companies</div><div class="cov-stat-val" id="st-n">—</div><div class="cov-stat-sub">SEC EDGAR, as filed</div></div>
       <div class="cov-stat"><div class="cov-stat-label">Sectors</div><div class="cov-stat-val" id="st-sec">—</div><div class="cov-stat-sub" id="st-ind">—</div></div>
       <div class="cov-stat"><div class="cov-stat-label">Field Coverage</div><div class="cov-stat-val" id="st-cov">—</div><div class="cov-stat-sub" id="st-fields">—</div></div>
-      <div class="cov-stat"><div class="cov-stat-label">Screen-Ready</div><div class="cov-stat-val" id="st-scr">—</div><div class="cov-stat-sub">Core financials complete</div></div>
+      <div class="cov-stat"><div class="cov-stat-label">Screen-Ready</div><div class="cov-stat-val" id="st-scr">—</div><div class="cov-stat-sub">Revenue · NI · Assets · Equity · Cash</div></div>
     </div>
 
     <div class="cov-panel reveal">
       <div class="cov-panel-head">
-        <div>
-          <div class="cov-panel-title">Coverage by Sector</div>
-          <div class="cov-panel-note" style="margin-top:6px">Share of companies with usable data for each line item. Click a sector to filter the list below.</div>
-        </div>
-        <div class="cov-legend"><span><i class="sw N"></i>Not applicable to sector</span></div>
+        <div class="cov-panel-title">% With Data · Sector × Line Item</div>
+        <div class="cov-legend"><span><i class="sw N"></i>N/A for sector</span></div>
       </div>
       <div class="hm-scroll"><table class="hm" id="heatmap"></table></div>
     </div>
 
     <div class="cov-panel reveal" id="explorer">
       <div class="cov-panel-head">
-        <div class="cov-panel-title">Company Explorer</div>
+        <div class="cov-panel-title">Explorer</div>
         <div class="cov-legend">
-          <span><i class="sw O"></i>5+ years</span><span><i class="sw T"></i>Under 5 years</span>
+          <span><i class="sw O"></i>5+ yrs</span><span><i class="sw T"></i>&lt;5 yrs</span>
           <span><i class="sw M"></i>Missing</span><span><i class="sw N"></i>N/A</span>
         </div>
       </div>
       <div class="cov-controls">
-        <input class="cov-search" id="q" type="search" placeholder="Search ticker, company, or industry" autocomplete="off" aria-label="Search companies" />
+        <input class="cov-search" id="q" type="search" placeholder="Ticker, company or industry" autocomplete="off" aria-label="Search companies" />
         <select class="cov-select" id="f-status" aria-label="Filter by status">
-          <option value="all">All companies</option>
+          <option value="all">All</option>
           <option value="ready">Screen-ready</option>
           <option value="gaps">Has missing fields</option>
           <option value="blocked">Not screen-ready</option>
         </select>
         <select class="cov-select" id="f-sort" aria-label="Sort">
-          <option value="tkr">Sort: Ticker</option>
-          <option value="name">Sort: Company</option>
-          <option value="covd">Sort: Coverage, high to low</option>
-          <option value="cova">Sort: Coverage, low to high</option>
+          <option value="tkr">Ticker</option>
+          <option value="name">Company</option>
+          <option value="covd">Coverage ↓</option>
+          <option value="cova">Coverage ↑</option>
         </select>
       </div>
       <div class="cov-chips" id="chips"></div>
       <div class="cov-count" id="count"></div>
       <div class="co-list" id="list"></div>
       <button class="co-more" id="more" type="button">Show more</button>
-
-      <div class="cov-method">
-        <div><b><i class="sw O"></i>Covered</b>At least five annual 10-K periods for the line item, deep enough to measure trends and growth.</div>
-        <div><b><i class="sw T"></i>Thin</b>Present, but under five years of history. Usable for levels, weaker for growth.</div>
-        <div><b><i class="sw M"></i>Missing</b>No usable figure found across the tags we map. Flagged rather than filled with guesses.</div>
-        <div><b><i class="sw N"></i>Not applicable</b>Line items a sector doesn't report by design, such as COGS or current assets for banks and REITs.</div>
-      </div>
-      <div class="cov-panel-note" style="margin-top:24px">Screen-ready means revenue, net income, total assets, equity and cash are all present. <span id="asof"></span></div>
+      <div class="cov-panel-note" style="margin-top:24px" id="asof"></div>
     </div>
   </section>
 
-  <section id="roadmap">
+  <section id="roadmap" class="tab-panel" role="tabpanel">
     <div class="reveal">
       <div class="section-eyebrow">Build Log</div>
-      <h2 class="section-title">What's Built.<br/><em>What's Next.</em></h2>
-      <p class="cov-intro">Our quantitative platform is built in layers, each depending only on the ones below it. We publish where it stands, including what isn't finished.</p>
+      <h2 class="section-title">Layer <em id="rm-now">2</em> of 4</h2>
     </div>
     <div class="rm-grid">
       <div class="rm-list reveal">
         <div class="rm-layer done">
           <div class="rm-top"><span class="rm-num">LAYER 01</span><span class="rm-status"><i class="rm-dot"></i>Complete</span></div>
-          <div class="rm-name">Portfolio Analytics</div>
-          <div class="rm-desc">Client holdings, returns, risk metrics and reporting, on our own market-data store.</div>
-          <div class="rm-group">
-            <ul class="rm-items done">
-              <li>Market data ingestion and caching in an analytical database</li>
-              <li>Simple, log, cumulative and annualized returns; volatility</li>
-              <li>Sharpe ratio and maximum drawdown</li>
-              <li>Live position tracking and per-client reports</li>
-              <li>Automated test suite</li>
-            </ul>
-          </div>
+          <div class="rm-head"><div class="rm-name">Portfolio Analytics</div><div class="rm-count"></div></div>
+          <div class="rm-bar"><i></i></div>
+          <ul class="rm-items done">
+            <li>Market data → DuckDB</li>
+            <li>Returns · log · cumulative · annualized · volatility</li>
+            <li>Sharpe · max drawdown</li>
+            <li>Position tracking · client reports</li>
+            <li>Test suite</li>
+          </ul>
         </div>
         <div class="rm-layer active">
           <div class="rm-top"><span class="rm-num">LAYER 02</span><span class="rm-status"><i class="rm-dot"></i>In Progress</span></div>
-          <div class="rm-name">Investment Screening</div>
-          <div class="rm-desc">Multi-criteria scoring that combines quantitative fundamentals with our analysts' qualitative theses. The first strategy is value investing.</div>
-          <div class="rm-group">
-            <div class="rm-group-label">Done</div>
-            <ul class="rm-items done">
-              <li>SEC EDGAR filings pulled for the full S&amp;P 500</li>
-              <li>Accounting-tag map that reconciles how companies label the same line item</li>
-              <li>Data-quality audit across 27 line items (the explorer above)</li>
-              <li>Company history that keeps past classifications, so old periods aren't rescored with today's labels</li>
-              <li>Storage for analysts' four-pillar qualitative theses</li>
-            </ul>
-          </div>
-          <div class="rm-group">
-            <div class="rm-group-label">Now</div>
-            <ul class="rm-items now">
-              <li>Persisting raw filings and computing derived metrics: margins, gross profitability, Altman components</li>
-              <li>Filing-lag rule, so no figure is used before the date it became public</li>
-            </ul>
-          </div>
-          <div class="rm-group">
-            <div class="rm-group-label">Next</div>
-            <ul class="rm-items next">
-              <li>Altman Z-score screen to remove financially distressed companies</li>
-              <li>Sector-neutral percentile ranking</li>
-              <li>Weighted qualitative pillar scores</li>
-              <li>Monte Carlo sensitivity across weights and classifications</li>
-            </ul>
-          </div>
+          <div class="rm-head"><div class="rm-name">Screening &amp; Ranking</div><div class="rm-count"></div></div>
+          <div class="rm-bar"><i></i></div>
+          <ul class="rm-items done">
+            <li>EDGAR filings · 503 companies</li>
+            <li>XBRL tag map</li>
+            <li>Data-quality audit · 27 line items</li>
+            <li>Point-in-time company history</li>
+            <li>Analyst thesis store</li>
+          </ul>
+          <ul class="rm-items now">
+            <li>Derived metrics · margins · GPA · Altman inputs</li>
+            <li>Filing-lag rule</li>
+          </ul>
+          <ul class="rm-items next">
+            <li>Altman Z screen</li>
+            <li>Sector-neutral ranking</li>
+            <li>Pillar scoring</li>
+            <li>Monte Carlo sensitivity</li>
+          </ul>
         </div>
         <div class="rm-layer planned">
           <div class="rm-top"><span class="rm-num">LAYER 03</span><span class="rm-status"><i class="rm-dot"></i>Planned</span></div>
-          <div class="rm-name">Portfolio Optimization</div>
-          <div class="rm-desc">Constrained allocation across screened names, with an explicit risk model.</div>
+          <div class="rm-head"><div class="rm-name">Portfolio Optimization</div><div class="rm-count">—</div></div>
         </div>
         <div class="rm-layer planned">
           <div class="rm-top"><span class="rm-num">LAYER 04</span><span class="rm-status"><i class="rm-dot"></i>Planned</span></div>
-          <div class="rm-name">Trading Algorithm</div>
-          <div class="rm-desc">Systematic execution, paper-traded before any capital is committed.</div>
+          <div class="rm-head"><div class="rm-name">Execution</div><div class="rm-count">—</div></div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <aside class="rm-side reveal">
-        <div class="rm-card">
-          <h3>Design Principles</h3>
-          <p><strong>Point-in-time.</strong> A quarter ending March 31 isn't public until mid-May. Every figure carries the date it became knowable, and nothing is scored before then.</p>
-          <p><strong>As filed.</strong> We use numbers as originally reported rather than later restatements, which weren't available to anyone at the time.</p>
-          <p><strong>Weights as config.</strong> Scoring weights live outside the code, so changing a weight doesn't change the software.</p>
-        </div>
-        <div class="rm-card">
-          <h3>Qualitative Pillar Weights</h3>
-          <p>How much each pillar of an analyst's thesis counts, by company stage. A draft that will be stress-tested once scoring is built.</p>
-          <table class="pw">
-            <thead><tr><th>Pillar</th><th>Early</th><th>Growth</th><th>Mature</th></tr></thead>
-            <tbody>
-              <tr><td>Leadership</td><td>25%</td><td>15%</td><td>10%</td></tr>
-              <tr><td>Industry growth</td><td>15%</td><td>25%</td><td>30%</td></tr>
-              <tr><td>Moat</td><td>25%</td><td>30%</td><td class="hi">35%</td></tr>
-              <tr><td>Macro</td><td class="hi">35%</td><td>30%</td><td>25%</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </aside>
+  <section id="methodology" class="tab-panel" role="tabpanel">
+    <div class="reveal">
+      <div class="section-eyebrow">Methodology</div>
+      <h2 class="section-title">Screen. Rank. <em>Weigh.</em></h2>
+    </div>
+    <div class="num-grid reveal">
+      <div class="num-tile"><div class="num-val">1.81</div><div class="num-label">Altman Z floor</div><div class="num-sub">Below = distress zone, removed</div></div>
+      <div class="num-tile"><div class="num-val">27</div><div class="num-label">Line items tracked</div><div class="num-sub">Income · Cash flow · Balance sheet</div></div>
+      <div class="num-tile"><div class="num-val" id="m-sec">9</div><div class="num-label">Ranking peer groups</div><div class="num-sub">Sector-neutral percentiles</div></div>
+      <div class="num-tile"><div class="num-val">5</div><div class="num-label">Metric families</div><div class="num-sub">Value · Quality · Health · Growth · Capital return</div></div>
+      <div class="num-tile"><div class="num-val">4</div><div class="num-label">Qualitative pillars</div><div class="num-sub">Leadership · Industry · Moat · Macro</div></div>
+      <div class="num-tile"><div class="num-val">3</div><div class="num-label">Company stages</div><div class="num-sub">Early · Growth · Mature</div></div>
+    </div>
+    <div class="mt-grid reveal">
+      <div class="rm-card">
+        <h3>Pillar Weights by Stage</h3>
+        <table class="pw">
+          <thead><tr><th>Pillar</th><th>Early</th><th>Growth</th><th>Mature</th></tr></thead>
+          <tbody>
+            <tr><td>Leadership</td><td>25%</td><td>15%</td><td>10%</td></tr>
+            <tr><td>Industry growth</td><td>15%</td><td>25%</td><td>30%</td></tr>
+            <tr><td>Moat</td><td>25%</td><td>30%</td><td class="hi">35%</td></tr>
+            <tr><td>Macro</td><td class="hi">35%</td><td>30%</td><td>25%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rm-card">
+        <h3>Data Rules</h3>
+        <dl class="rules">
+          <dt>Point-in-time</dt><dd>Scored from filing date, not period end</dd>
+          <dt>As filed</dt><dd>No restatements</dd>
+          <dt>Annual = 350–380 days</dt><dd>Quarter-in-10-K values rejected</dd>
+          <dt>Liquidity cut</dt><dd>0th percentile · large-cap phase</dd>
+          <dt>Weights in config</dt><dd>Normalized to 100% at load</dd>
+        </dl>
+      </div>
     </div>
   </section>
 
@@ -599,8 +674,8 @@
     </div>
     <div class="quant-team-grid reveal">
       <div class="qt-card">
-        <div class="qt-initial">E</div>
-        <div class="qt-name">Elie Dagher</div>
+        <div class="qt-initial">--</div>
+        <div class="qt-name">--</div>
         <div class="qt-role">--</div>
         <div class="qt-focus">Strategy design &amp; validation</div>
         <div class="qt-tags"><span class="qt-tag">Python</span><span class="qt-tag">Statistics</span><span class="qt-tag">Finance</span></div>
@@ -630,6 +705,7 @@
   </section>
   -->
 
+  <!-- HIDDEN FOR NOW: The Division / Technology Stack.
   <section id="overview">
     <div class="overview-grid reveal">
       <div class="overview-text">
@@ -654,6 +730,7 @@
       </div>
     </div>
   </section>
+  -->
 
   <footer>
     <div class="footer-top">
@@ -669,6 +746,7 @@
   </footer>
 
   <script src="data/coverage.js"></script>
+  <script src="data/quant-metrics.js"></script>
   <script>
     // Code background
     const codeLines = [
@@ -749,7 +827,7 @@
       document.getElementById('st-cov').textContent = (100 * nOk / (rows.length * F.length)).toFixed(1) + '%';
       document.getElementById('st-fields').textContent = F.length + ' line items per company';
       document.getElementById('st-scr').textContent = rows.filter(r => r.ready).length;
-      document.getElementById('asof').textContent = 'Data as of ' + fmtDate + '.';
+      document.getElementById('asof').textContent = 'Source: SEC EDGAR · as of ' + fmtDate;
 
       // Sector × field heatmap
       const order = GROUPS.flatMap(g => g[1]).filter(f => f in idx);
@@ -830,6 +908,92 @@
       list.addEventListener('keydown', e => { const row = e.target.closest('.co-row'); if (row && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(row); } });
       render();
     }
+
+    // ── Scoreboard (data/quant-metrics.js). null = redacted; a number decrypts on load.
+    const MET = window.DC_METRICS;
+    if (MET) {
+      const nCovered = COV ? COV.companies.length : null;
+      const fmt = (v, f) => f === 'pct' ? (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1) + '%'
+                          : f === 'num2' ? v.toFixed(2) : Math.round(v).toLocaleString('en-CA');
+      const redact = mask => [...mask].map(ch => ch === '▇' ? '<i class="rd"></i>' : esc(ch)).join('');
+      const board = document.getElementById('scoreboard');
+      board.innerHTML = MET.slots.map((s, i) => {
+        const v = s.value === 'auto' ? nCovered : s.value;
+        const locked = v === null || v === undefined;
+        return `<div class="sb-slot ${locked ? 'locked' : 'live'}">
+          <div class="sb-label">${esc(s.label)}</div>
+          <div class="sb-val" data-i="${i}">${locked ? redact(s.mask) : '&nbsp;'}</div>
+          <div class="sb-sub">${esc(s.sub)}</div>
+          <div class="sb-status"><i class="sb-dot"></i>${esc(s.status)}</div>
+        </div>`;
+      }).join('');
+
+      // Integers count up; decimals scramble through random digits, then settle.
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      MET.slots.forEach((s, i) => {
+        const v = s.value === 'auto' ? nCovered : s.value;
+        if (v === null || v === undefined) return;
+        const el = board.querySelector(`.sb-val[data-i="${i}"]`), final = fmt(v, s.format);
+        if (reduced) { el.textContent = final; return; }
+        const t0 = performance.now(), dur = 1400;
+        (function step(t) {
+          const p = Math.min(1, (t - t0) / dur);
+          if (s.format === 'int') el.textContent = fmt(v * (1 - Math.pow(1 - p, 3)), 'int');
+          else el.textContent = [...final].map((ch, k) => /\d/.test(ch) && p < 0.35 + 0.65 * k / final.length ? Math.floor(Math.random() * 10) : ch).join('');
+          if (p < 1) requestAnimationFrame(step); else el.textContent = final;
+        })(t0);
+      });
+
+      document.getElementById('sys-banner').innerHTML = [
+        `<b>DC-QUANT v${esc(MET.version)}</b>`, `Layer ${MET.layer} of ${MET.layers}`,
+        nCovered !== null ? `${nCovered} companies` : null,
+        `Last pipeline run ${esc(COV ? COV.asOf : '—')} <i class="sb-dot"></i>`,
+      ].filter(Boolean).join('<span class="sep">·</span>');
+      document.getElementById('rm-now').textContent = MET.layer;
+    }
+    if (COV) document.getElementById('m-sec').textContent = new Set(COV.companies.map(c => c[2])).size;
+
+    // ── Build log: done / total per layer, drawn as a progress bar
+    document.querySelectorAll('.rm-layer').forEach(layer => {
+      const done = layer.querySelectorAll('.rm-items.done li').length;
+      const total = layer.querySelectorAll('.rm-items li').length;
+      if (!total) return;
+      layer.querySelector('.rm-count').textContent = `${done}/${total}`;
+      layer.querySelector('.rm-bar i').dataset.w = (100 * done / total).toFixed(0) + '%';
+    });
+    const fillBars = panel => panel.querySelectorAll('.rm-bar i').forEach(b => { b.style.width = b.dataset.w || '0'; });
+
+    // ── Tabs, deep-linkable via #coverage / #roadmap / #methodology
+    const tabs = [...document.querySelectorAll('.qtab')];
+    const panels = tabs.map(t => document.getElementById(t.dataset.tab));
+    function showTab(id, scroll) {
+      if (!tabs.some(t => t.dataset.tab === id)) id = tabs[0].dataset.tab;
+      tabs.forEach((t, i) => {
+        const on = t.dataset.tab === id;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        panels[i].hidden = !on;
+        if (on) {
+          panels[i].querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+          requestAnimationFrame(() => fillBars(panels[i]));
+        }
+      });
+      if (scroll) {
+        const top = document.querySelector('.qtabs').getBoundingClientRect().top;
+        if (top < 0 || top > innerHeight * 0.6) document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { history.replaceState(null, '', '#' + t.dataset.tab); showTab(t.dataset.tab, true); });
+      t.addEventListener('keydown', e => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        const n = tabs[(i + d + tabs.length) % tabs.length];
+        n.focus(); n.click();
+      });
+    });
+    showTab(location.hash.slice(1), false);
+    addEventListener('hashchange', () => showTab(location.hash.slice(1), true));
 
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
